@@ -1,11 +1,16 @@
 require("dotenv").config()
+const corsOptions ={
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+ }
 
 const cors = require('cors')
 const express = require("express");
 const app = express()
 const port = process.env.PORT
 app.use(express.json())
-app.use(cors())
+app.use(cors(corsOptions))
 
 /*---------------------otp_register---------------------------*/
 
