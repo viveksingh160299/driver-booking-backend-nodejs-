@@ -14,7 +14,7 @@ router.post('/', async (req,res,next) => {
         const mobile_number = req.body.mobile_number;
         const otp = otpGenerator.generate(6, {alphabets: false, upperCase: false, specialChars: false});
         const otp_token = generateOtpToken({mobile_number: mobile_number})
-        const expiresAt = Math.floor((new Date().getTime())/1000)
+        const expiresAt = Math.floor((new Date().getTime())/1000) + 600;            //600 seconds means 10 minutes expiry time
 
         const otp_sqlInsert = "INSERT INTO otp_table VALUES (0,?,?,?,?)"
         const otp_insert_query = mysql.format(otp_sqlInsert,[otp, otp_token, mobile_number, expiresAt])
@@ -39,7 +39,7 @@ router.post('/', async (req,res,next) => {
                         res.status(201).send({otp_token: otp_token})
                     })
                 }, (err) => {
-                    res.status(400).send({"Status":"Failure", "Details": err})
+                    res.status(400).send({"Status":"Failure in Sending OTP", "Details": err})
             });
 
         })
